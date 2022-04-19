@@ -1,0 +1,48 @@
+html(lang='fr')
+    head
+        meta(charset='UTF-8')
+        meta(name='viewport', content='width=device-width, initial-scale=1.0')
+        script(src='/static/js/jquery-3.6.0.js')
+        script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js')
+        script(src='https://kit.fontawesome.com/9240cb2d47.js' cross-origin='anonymous')
+        link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css')
+        title Zeus - Service d'Authentification Centralisé
+    body
+        div(class='container-fluid')
+            div(class='row justify-content-center align-items-center' style='height: 100%')
+                div(class='col-11 col-sm-6 col-lg-4 border border-success border-3 rounded bg-light')
+                    form(action="/auth", method="post" class='m-3' id='authForm')
+                        div(class='mb-3')
+                            h6(align='center') Zeus - Service d'Authentification Centralisé
+                        div(class='mb-3')
+                            label(for="inputLogin" class='form-label') Identifiant
+                            input(type='text' class='form-control' id='inputLogin' name='login' required)
+                        div(class='mb-3')
+                            label(for="inputPassword" class='form-label') Mot de passe
+                            input(type='password' class='form-control' id='inputPassword' name='password' required)
+                        div(class='px-4 mb-2')
+                            input(type='checkbox' class='form-check-input' id='inputKeepAlive' name='keepalive')
+                            label(for="inputKeepAlive" class='form-label') Rester connecté
+                        button(type='submit' class='btn btn-success mb-3') Connexion
+                        h6(class='text-danger')=error
+
+        script.
+                $("#authForm").submit( function(eventObj) {
+                    $("<input />").attr("type", "hidden")
+                        .attr("name", "redirect")
+                        .attr("value", getUrlVars()["redirect"])
+                        .appendTo("#authForm");
+                    return true;
+                });
+
+                function getUrlVars(){
+                    var vars = [], hash;
+                    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+                    for(var i = 0; i < hashes.length; i++)
+                    {
+                    hash = hashes[i].split('=');
+                    vars.push(hash[0]);
+                    vars[hash[0]] = hash[1];
+                    }
+                    return vars;
+                }            

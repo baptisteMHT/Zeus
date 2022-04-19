@@ -1,7 +1,7 @@
-const axios = require('axios');
+const axios     = require('axios');
+const ssoURL    ="http://192.168.5.61:8080";
 
 exports.requireSSO = function(req,res,next){
-    let ssoURL="http://192.168.5.61:8080";
     let url = req.protocol+"://"+req.headers.host;
     let zeusCookie = req.cookies.zeus;
 
@@ -13,7 +13,6 @@ exports.requireSSO = function(req,res,next){
     axios.get(ssoURL+"/check?url="+url+"&token="+zeusCookie)
     .then(function (response) {
         // handle success
-        console.log(response);
         if(response.data.code == 1){
             next();
         }else{

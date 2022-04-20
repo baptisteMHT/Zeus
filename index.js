@@ -1,15 +1,15 @@
 require('dotenv').config();
 
-var fs = require('fs');
-var http = require('http');
-var https = require('https');
-var privateKey  = fs.readFileSync(process.env.KEY, 'utf8');
-var certificate = fs.readFileSync(process.env.CRT, 'utf8');
-
-var credentials = {key: privateKey, cert: certificate};
-
+var fs                  = require('fs');
+var https               = require('https');
 const express           = require('express');
 const app               = express();
+var privateKey          = fs.readFileSync(process.env.KEY, 'utf8');
+var certificate         = fs.readFileSync(process.env.CRT, 'utf8');
+
+var credentials         = {key: privateKey, cert: certificate};
+
+
 const favicon           = require('serve-favicon');
 const morgan            = require('morgan');
 const bodyParser        = require('body-parser');
@@ -29,7 +29,6 @@ app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-var httpServer = http.createServer(app);
 var httpsServer = https.createServer(credentials, app);
 
 
@@ -106,6 +105,4 @@ function checkURL(req,res,next){
     })
 }
 
-
-httpServer.listen(process.env.HTTP_PORT, console.log("HTTP server running on port "+ process.env.HTTP_PORT));
 httpsServer.listen(process.env.HTTPS_PORT, console.log("HTTPS server running on port "+ process.env.HTTPS_PORT));
